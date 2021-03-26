@@ -1,0 +1,37 @@
+﻿@model  Miel2.Models.CursoModels
+@{
+    ViewBag.Title = "CursosFormulario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CursosFormulario</h2>
+
+@using (Html.BeginForm("Guardar", "Cursos"))
+{
+    @Html.ValidationSummary(true, "Please fix the errors")
+    <div class="form-group">
+        @Html.LabelFor(c => c.NombreDelCurso)
+        @Html.TextBoxFor(c => c.NombreDelCurso, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.NombreDelCurso)
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.FechaDeExpiracion)
+        @Html.TextBoxFor(c => c.FechaDeExpiracion,"{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor( c => c.FechaDeExpiracion)
+    </div>
+
+
+    @Html.HiddenFor(c => c.Id)
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    
+    }
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval");
+
+
+}

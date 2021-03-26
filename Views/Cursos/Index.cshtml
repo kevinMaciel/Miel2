@@ -1,0 +1,68 @@
+﻿@model  IEnumerable<Miel2.Models.CursoModels>
+@{
+    ViewBag.Title = "Cursos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Cursos</h2>
+
+<button class="btn btn-primary">@Html.ActionLink("Nuevo Curso","NuevoCurso", new { area = "" }, new { @style = "Color:white ; text-decoration:none" })</button>
+
+<table id="cursos" class="table ">
+    <thead>
+        <tr>
+            <th scope="col">Nombre del curso</th>
+            <th scope="col">Fecha de expiracion</th>
+            <th scope="col">Editar Curso</th>
+            <th scope="col">Borrar Curso</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ( var curso in Model )
+        {
+            <tr>
+                <th scope="row">@Html.ActionLink(curso.NombreDelCurso,"Detalle" , new { id = curso.Id})</th>
+                <td>@curso.FechaDeExpiracion</td>
+                <td>@Html.ActionLink("Editar","EditarCurso", new { id = curso.Id})</td>
+                <td class="js-delete" data-curso-id="@curso.Id"><button>Borrar Curso</button></td>
+            </tr>
+        }
+        
+    </tbody>
+</table>
+
+@section scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+        
+
+        $("#cursos").on("click", ".js-delete", function (e) {
+
+        var button = $(this);
+
+
+        if (confirm("¿Seguro que queres Borrar Este Curso?")) {
+
+
+            $.ajax({
+
+                    url: "/api/cursos/" + button.attr("data-curso-id") ,
+                    method: "DELETE",
+                    success: function () {
+                    button.parents("tr").remove().draw();
+                }
+           });
+
+
+    }
+    });
+
+    })
+    </script>
+
+
+
+    }
